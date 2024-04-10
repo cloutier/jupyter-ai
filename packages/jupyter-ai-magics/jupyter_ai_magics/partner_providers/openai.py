@@ -75,23 +75,20 @@ class AzureChatOpenAIProvider(BaseProvider, AzureChatOpenAI):
     id = "azure-chat-openai"
     name = "Azure OpenAI"
     models = ["*"]
-    model_id_key = "deployment_name"
+    model_id_key = "azure_deployment"
     model_id_label = "Deployment name"
     pypi_package_deps = ["langchain_openai"]
-    auth_strategy = EnvAuthStrategy(name="AZURE_OPENAI_API_KEY")
+    # Confusingly, langchain uses OPENAI_API_KEY also for azure, unlike the underlying openai package
+    auth_strategy = EnvAuthStrategy(name="OPENAI_API_KEY")
     registry = True
 
     fields = [
         TextField(
-            key="openai_api_base", label="Base API URL (required)", format="text"
+            key="azure_endpoint", label="Base API URL (required)", format="text"
         ),
         TextField(
-            key="openai_api_version", label="API version (required)", format="text"
+            key="api_version", label="API version (required)", format="text"
         ),
-        TextField(
-            key="openai_organization", label="Organization (optional)", format="text"
-        ),
-        TextField(key="openai_proxy", label="Proxy (optional)", format="text"),
     ]
 
 
